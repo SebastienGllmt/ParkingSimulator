@@ -21,7 +21,7 @@ public class Vehicle {
 	 * Creates a vehicle of specifies types
 	 * @param typeSet - A set containing all the ways this car can be classified. See VehicleType
 	 */
-	public Vehicle(Set<VehicleType> typeSet, Driver driver){
+	public Vehicle(Driver driver, Set<VehicleType> typeSet){
 		if(typeSet == null){
 			typeSet = new HashSet<VehicleType>();
 		}

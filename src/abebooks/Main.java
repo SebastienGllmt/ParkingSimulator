@@ -27,17 +27,13 @@ public class Main {
 		testParking.allocate(VehicleType.REGULAR, 10);
 		testParking.allocate(DriverType.HANDICAP, 5);
 		
-		Set<VehicleType> vehicleType = new HashSet<VehicleType>();
-		vehicleType.add(VehicleType.REGULAR);
-		Vehicle car = new Vehicle(vehicleType, null);
+		Vehicle car = VehicleFactory.createVehicle(null, VehicleType.REGULAR);
 		assertTrue("Car should be regular vehicle", car.getParkingRights().contains(VehicleType.REGULAR));
 		assertNotNull("Car should have found a spot", car.setParking(testParking));
 		assertEquals("Should have been allocated the first spot", 1, car.getParkingSpot().getPosition());
 		
-		Set<DriverType> driverType = new HashSet<DriverType>();
-		driverType.add(DriverType.HANDICAP);
-		Driver driver = new Driver(driverType);
-		Vehicle handicapCar = new Vehicle(null, driver);
+		Driver driver = DriverFactory.createDriver(DriverType.HANDICAP);
+		Vehicle handicapCar = VehicleFactory.createVehicle(driver, null);
 		handicapCar.setParking(testParking);
 		assertNotNull("Car should have been placed in handicap spot", handicapCar.getParkingSpot());
 	}
@@ -48,20 +44,14 @@ public class Main {
 		testParking.allocate(VehicleType.SMALL, 5);
 		testParking.allocate(DriverType.EMPLOYEE, 10);
 		
-		Set<VehicleType> vehicleType = new HashSet<VehicleType>();
-		vehicleType.add(VehicleType.SMALL);
-		Set<DriverType> driverType = new HashSet<DriverType>();
-		driverType.add(DriverType.EMPLOYEE);
-		Driver employee = new Driver(driverType);
-		
-		Vehicle smallCar = new Vehicle(vehicleType, employee);
+		Vehicle smallCar = VehicleFactory.createVehicle(DriverFactory.createDriver(DriverType.EMPLOYEE), VehicleType.SMALL);
 		smallCar.setParking(testParking);
 		assertEquals("Should have parked in the optimal small car location", 1, smallCar.getParkingSpot().getPosition());
 		smallCar.setParking(null); //remove from parking
 		assertNull(smallCar.getParkingSpot()); //verify removing from parking works
 		assertNull(smallCar.getParkingManager()); //verify removing from parking works
 		for(int i=0; i<10; i++){
-			Vehicle fillerCar = new Vehicle(vehicleType, employee);
+			Vehicle fillerCar = VehicleFactory.createVehicle(DriverFactory.createDriver(DriverType.EMPLOYEE), VehicleType.SMALL);
 			fillerCar.setParking(testParking); //force fill the small car parking
 		}
 		smallCar.setParking(testParking);
