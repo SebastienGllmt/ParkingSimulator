@@ -36,6 +36,7 @@ public class Heap<T extends Comparable<T>> extends AbstractHeap<T> {
 		this.TYPE = TYPE.getType();
 		this.elements = (T[]) new Comparable[size];
 		this.endPointer = 0;
+		this.resizable = resizable;
 	}
 
 	/**
@@ -102,6 +103,9 @@ public class Heap<T extends Comparable<T>> extends AbstractHeap<T> {
 			int position = 0;
 			while (position < endPointer) {
 				int left = (position << 1) + 1;
+				if(left >= endPointer){
+					break;
+				}
 				int right = (position << 1) + 2;
 
 				int child = left; //initially assume left child is best swap
